@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div style="margin-top: 50px;" class="container">
+        <h1 style="text-align:center;">To-Do List</h1>
+        <p class="h4">User ID : {{user.id}} | User Name : {{user.username}} </p>
+        <a class="btn btn-danger" href="{% url 'todos:home' %}">Logout</a>
+        <hr>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="h4">Todo Title</label><br>
+                <input  class="form-control" type="text" name="title" placeholder="Enter Todo Title">
+            </div>
+            <button class="btn btn-primary" type="submit" formaction="{% url 'todos:search' stodo.user_id %}">SEARCH</button>
+        </form>
+
+        <hr>
+        <div class="container1">
+            <p class="h5">To-Do ID: {{stodo.id }} | {{ stodo.title }}  </p>
+
+            {% if stodo.complete == False %}
+            <span class="btn btn-warning">Not Complete</span>
+            {% else %}
+            <span class="btn btn-success">Completed</span>
+            {% endif %}
+
+            <a class="btn btn-info" href="{% url 'todos:update' uid=stodo.user_id todo_id=stodo.id %}">Update</a>
+            <a class="btn btn-danger" href="{% url 'todos:delete' uid=stodo.user_id todo_id=stodo.id %}">Delete</a>
+        </div>
+        <hr>
+        <a class="btn btn-success" href="{% url 'todos:index' stodo.user_id %}">Back to home</a>
+    </div>
+    {% endblock %}
